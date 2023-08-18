@@ -12,13 +12,13 @@ import SwiftUI
 // (normally it would only take a non-optional UIImage)
 
 struct OptionalImage: View {
-    var uiImage: UIImage?
-    
-    var body: some View {
-        if uiImage != nil {
-            Image(uiImage: uiImage!)
-        }
+  var uiImage: UIImage?
+
+  var body: some View {
+    if uiImage != nil {
+      Image(uiImage: uiImage!)
     }
+  }
 }
 
 // syntactic sugar
@@ -30,25 +30,25 @@ struct OptionalImage: View {
 // and thus cleans up our code
 
 struct AnimatedActionButton: View {
-    var title: String? = nil
-    var systemImage: String? = nil
-    let action: () -> Void
-    
-    var body: some View {
-        Button {
-            withAnimation {
-                action()
-            }
-        } label: {
-            if title != nil && systemImage != nil {
-                Label(title!, systemImage: systemImage!)
-            } else if title != nil {
-                Text(title!)
-            } else if systemImage != nil {
-                Image(systemName: systemImage!)
-            }
-        }
+  var title: String? = nil
+  var systemImage: String? = nil
+  let action: () -> Void
+
+  var body: some View {
+    Button {
+      withAnimation {
+        action()
+      }
+    } label: {
+      if title != nil && systemImage != nil {
+        Label(title!, systemImage: systemImage!)
+      } else if title != nil {
+        Text(title!)
+      } else if systemImage != nil {
+        Image(systemName: systemImage!)
+      }
     }
+  }
 }
 
 // simple struct to make it easier to show configurable Alerts
@@ -60,6 +60,6 @@ struct AnimatedActionButton: View {
 // of course, the string identifier has to be unique for all your different kinds of alerts
 
 struct IdentifiableAlert: Identifiable {
-    var id: String
-    var alert: () -> Alert
+  var id: String
+  var alert: () -> Alert
 }
