@@ -39,16 +39,16 @@ struct EmojiArtDocumentView: View {
             ZStack {
               Text(emoji.text)
                 .font(.system(size: fontSize(for: emoji)))
-                .scaleEffect(zoomScale * emojiZoomScale)
+                .scaleEffect(zoomScale)
                 .position(position(for: emoji, in: geometry))
                 .gesture(singleTapToSelect(emoji: emoji)
                   .simultaneously(with: DoubleTapToDelete(emoji: emoji)))
               if emoji.isSelected {
                 RoundedRectangle(cornerRadius: 5)
-                  .stroke(.red, lineWidth: 3)
+                  .stroke(.red, lineWidth: 2)
                   .frame(width: fontSize(for: emoji) * 1.1,
                          height: fontSize(for: emoji) * 1.1)
-                  .scaleEffect(zoomScale * emojiZoomScale)
+                  .scaleEffect(zoomScale)
                   .position(position(for: emoji, in: geometry))
               }
             }
@@ -122,7 +122,13 @@ struct EmojiArtDocumentView: View {
   }
     
   private func fontSize(for emoji: EmojiArtModel.Emoji) -> CGFloat {
-    CGFloat(emoji.size)
+    if emoji.isSelected{
+      return CGFloat(emoji.size) * emojiZoomScale
+    }
+    else{
+      return CGFloat(emoji.size)
+    }
+    
   }
     
   private func convertToEmojiCoordinates(_ location: CGPoint, in geometry: GeometryProxy) -> (x: Int, y: Int) {
@@ -181,7 +187,7 @@ struct EmojiArtDocumentView: View {
           emojiGestureZoomScale = latestGestureScale
         }
         .onEnded { gestureScaleAtEnd in
-          emojiSteadyStateZoomScale *= gestureScaleAtEnd
+          document.scaleSelectedEmoji(by: gestureScaleAtEnd)
         }
     }
   }
